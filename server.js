@@ -20,6 +20,22 @@ const server = net.createServer((socket) => {
         }
     })
 
+    socket.on('error', (err) => {
+        console.error(`¡Ha ocurrido un error con el usuario ${socket.username}!`)
+        const index = clients.indexOf(socket)
+        if (index !== -1) {
+            clients.splice(index, 1)
+        }
+    })
+
+    socket.on('close', () => {
+        console.log(`¡${socket.username} se ha desconectado!`)
+        const index = clients.indexOf(socket)
+        if (index !== -1) {
+            clients.splice(index, 1)
+        }
+    })
+
     clients.push(socket)
 })
 
